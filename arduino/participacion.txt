@@ -1,0 +1,2 @@
+Esta parte del repositorio va a contener todo el codigo que se realice 
+inicialmente para la placa arduion
