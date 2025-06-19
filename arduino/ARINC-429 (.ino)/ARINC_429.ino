@@ -3,7 +3,11 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-uint8_t codigo[4];
+byte codigo[4];
+
+// Array para almacenar los bits
+  bool bits[32];
+
 unsigned long velocidad = 9600;
 bool codigoValido = false;
 
@@ -18,11 +22,13 @@ void setup() {
 }
 
 void loop() {
-
-  if (Serial.available() >= 8) {
+//aca leistes los 4 bits
+  if (Serial.available() >= 4) {
     for (int i = 0; i < 4; i++) {
       codigo[i] = Serial.read();
     }
+//despues que los leistes
+bytesToBits(codigo[0], codigo[1], codigo[2], codigo[3], bits);
 
     velocidad = 0;
     for (int i = 0; i < 4; i++) {
