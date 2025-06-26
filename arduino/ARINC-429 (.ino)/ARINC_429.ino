@@ -3,10 +3,10 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-byte codigo[4];
+byte codigo[4]; //byte tiene 8 bits
 
-// Array para almacenar los bits
-  bool bits[32];
+// Array para almacenar los 32 bits es el codigo ARINC
+bool bits[32];  //es un array que tiene 32 bits, el
 
 unsigned long velocidad = 9600;
 bool codigoValido = false;
@@ -27,9 +27,18 @@ void loop() {
     for (int i = 0; i < 4; i++) {
       codigo[i] = Serial.read();
     }
-//despues que los leistes
+//despues que los leistes, se guardo el codigo arint en la varible bits
 bytesToBits(codigo[0], codigo[1], codigo[2], codigo[3], bits);
 
+//esto no lo haria asi, la velocidad debe ser enviada por otro lado
+//para pensar....
+
+//en esta parte se debe trnasmitir la in inormacion los 32 bits
+
+// hay que hacer un ciclo de los 32 bits y un delay de 80 microsegundos
+delayMicroseconds(80);
+
+//todo esto a revisar......
     velocidad = 0;
     for (int i = 0; i < 4; i++) {
       velocidad |= ((unsigned long)Serial.read()) << (8 * i);
@@ -57,7 +66,8 @@ void mostrarEnLCD() {
   lcd.print("Codigo:");
   for (int i = 0; i < 4; i++) {
     lcd.print(" ");
-    if (codigo[i] < 16) lcd.print("0");
+    if (codigo[i] < 16)
+      lcd.print("0");
     lcd.print(codigo[i], HEX);
   }
 
